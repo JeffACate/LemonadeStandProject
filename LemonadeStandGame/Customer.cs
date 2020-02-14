@@ -11,5 +11,9 @@ namespace LemonadeStand_3DayStarter
         List<string> names;
         public string name;
 
+        public Customer()
+        {
+
+        }
     }
 }
