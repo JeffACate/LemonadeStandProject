@@ -78,8 +78,7 @@ namespace LemonadeStand_3DayStarter
         public void RunGame()
         {
             DisplayRules();
-            DisplayInventory();
-            DisplayWallet();
+            player.GetReady();
             StartDay();
             
 
@@ -93,23 +92,8 @@ namespace LemonadeStand_3DayStarter
             Console.WriteLine("Display Rules" + "\n" +
                               "-----------------");
         }
-        private void DisplayWallet()
-        {
-            Console.WriteLine("You have: ${0}", player.wallet.Money);
-            Console.WriteLine("----------------\n");
-        }
-        private void DisplayInventory()
-        {
-            Console.WriteLine("You have:\n" +
-                              "     {0} Lemons" + "\n" +
-                              "     {1} Sugar cubes" + "\n" +
-                              "     {2} Ice Cubes" + "\n" +
-                              "     {3} Cups", 
-                              player.inventory.lemons.Count, 
-                              player.inventory.sugarCubes.Count,
-                              player.inventory.iceCubes.Count,
-                              player.inventory.cups.Count);
-        }
+        
+        
         private void StartDay()
         {
             //DisplayWeather();

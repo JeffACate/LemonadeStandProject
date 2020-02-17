@@ -15,7 +15,10 @@ namespace LemonadeStand_3DayStarter
 
         public Recipe()
         {
-
+            amountOfLemons = 1;
+            amountOfIceCubes = 1;
+            amountOfSugarCubes = 1;
         }
+
     }
 }
