@@ -12,6 +12,7 @@ namespace LemonadeStand_3DayStarter
         {
             Game game = new Game();
             game.RunGame();
+            Console.ReadKey();
         }
     }
 }

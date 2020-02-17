@@ -11,7 +11,7 @@ namespace LemonadeStand_3DayStarter
         Player player;
         List<Day> days;
         int currentDay;
-        public Random randomNumberGenerator;
+        //public Random randomNumberGenerator;  
         Store store = new Store();
         
         public Game()
@@ -78,6 +78,8 @@ namespace LemonadeStand_3DayStarter
         public void RunGame()
         {
             DisplayRules();
+            DisplayInventory();
+            DisplayWallet();
             StartDay();
             
 
@@ -91,21 +93,40 @@ namespace LemonadeStand_3DayStarter
             Console.WriteLine("Display Rules" + "\n" +
                               "-----------------");
         }
+        private void DisplayWallet()
+        {
+            Console.WriteLine("You have: ${0}", player.wallet.Money);
+            Console.WriteLine("----------------\n");
+        }
+        private void DisplayInventory()
+        {
+            Console.WriteLine("You have:\n" +
+                              "     {0} Lemons" + "\n" +
+                              "     {1} Sugar cubes" + "\n" +
+                              "     {2} Ice Cubes" + "\n" +
+                              "     {3} Cups", 
+                              player.inventory.lemons.Count, 
+                              player.inventory.sugarCubes.Count,
+                              player.inventory.iceCubes.Count,
+                              player.inventory.cups.Count);
+        }
         private void StartDay()
         {
-            // DisplayWeather();
+            //DisplayWeather();
             //Buy Supplies
 
             int task = ChooseTask();
             switch (task)
             {
                 case 0:
-                    store.DisplayStore();
+                    store.PurchaseItems(player);
                     break;
                 case 1:
+                    
+                    break;
+                case 2:
                     break;
             }
-            Console.ReadKey();
         }
         private int ChooseTask()
         {
@@ -113,8 +134,9 @@ namespace LemonadeStand_3DayStarter
             while (task < 0 || task > 1)
             {
                 Console.Write("What would you like to do? " + "\n" +
-                              "0) Go to store" + "\n" +
-                              "1) Start Day" + "\n");
+                              "  0) Go to store" + "\n" +
+                              "  1) Edit Recipe" + "\n" +
+                              "  2) Start Day" + "\n");
                 task = Console.ReadKey().KeyChar - '0';
                 Console.WriteLine();
             }
