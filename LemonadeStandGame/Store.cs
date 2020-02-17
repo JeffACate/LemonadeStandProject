@@ -106,7 +106,7 @@ namespace LemonadeStand_3DayStarter
         public void PurchaseItems(Player player)
         {
             DisplayStore();
-            int itemToPurchase = ChoseItemToBuy();
+            int itemToPurchase = ChooseItemToBuy();
             switch (itemToPurchase)
             {
                 case 0:
@@ -125,7 +125,7 @@ namespace LemonadeStand_3DayStarter
                     break;
             }
         }
-        private int ChoseItemToBuy()
+        private int ChooseItemToBuy()
         {
             try
             {
@@ -146,7 +146,7 @@ namespace LemonadeStand_3DayStarter
             catch (Exception e)
             {
                 Console.WriteLine(e.Message + "\nPlease try again. ");
-                return ChoseItemToBuy();
+                return ChooseItemToBuy();
             }
         }
     }
