@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LemonadeStand_3DayStarter
 {
@@ -39,35 +35,40 @@ namespace LemonadeStand_3DayStarter
         private void DisplayInventory()
         {
             Console.WriteLine("You have:\n" +
-                              "     {0} Lemons" + "\n" +
-                              "     {1} Sugar cubes" + "\n" +
-                              "     {2} Ice Cubes" + "\n" +
-                              "     {3} Cups",
+                              "  {0} Lemons" + "\n" +
+                              "  {1} Sugar cubes" + "\n" +
+                              "  {2} Ice Cubes" + "\n" +
+                              "  {3} Cups",
                               inventory.lemons.Count,
                               inventory.sugarCubes.Count,
                               inventory.iceCubes.Count,
                               inventory.cups.Count);
         }
-
         public void EditRecipe()
         {
-            int itemToChange = -1;
-            while (itemToChange != 4 &&
-                 (itemToChange < 0 || itemToChange > 3))
+            bool continueEditingRecipe = true;
+            while (continueEditingRecipe == true)
             {
                 DisplayRecipe();
-                itemToChange = PickItemToChange();
-                ChangeHowMuchToUse(itemToChange);
+                int itemToChange = PickItemToChange();
+                if (itemToChange != 4)
+                {
+                    ChangeHowMuchToUse(itemToChange);
+                }
+                else
+                {
+                    continueEditingRecipe = false;
+                }
             }
         }
         private void DisplayRecipe()
         {
-            Console.WriteLine("You have:\n" +
+            Console.WriteLine("Your Recipe:" + "\n" +
                               "  {0} Lemons" + "\n" +
                               "  {1} Sugar cubes" + "\n" +
                               "  {2} Ice cubes" + "\n" +
                               "in each cup for: " + "\n" +
-                              "  ${3} Price per cup" + "\n",
+                              "  $0.{3} Price per cup" + "\n",
                               recipe.amountOfLemons,
                               recipe.amountOfSugarCubes,
                               recipe.amountOfIceCubes,
@@ -75,83 +76,84 @@ namespace LemonadeStand_3DayStarter
         }
         private int PickItemToChange()
         {
-            try
+            int itemToChange = -1;
+            while (itemToChange < 0 || itemToChange > 4)
             {
-                int itemToChange = -1;
-                while (itemToChange < 0 || itemToChange > 3)
-                {
-                    Console.Write("What would you like to change? ");
-                    Console.WriteLine("    0) Lemons" + "\n" +
-                                      "    1) Sugar cubes" + "\n" +
-                                      "    2) Ice Cubes" + "\n" +
-                                      "    3) Price per up" + "\n" +
-                                      "    4) Exit");
-                    itemToChange = Console.ReadKey().KeyChar - '0';
-                    Console.WriteLine();
-                    if (itemToChange < 0 || itemToChange > 3)
-                    {
-                        throw new IndexOutOfRangeException("Invalid input.");
-                    }
-                    Console.WriteLine();
-                }
-                return itemToChange;
+                Console.Write("What would you like to change? \n");
+                Console.WriteLine("    0) Lemons" + "\n" +
+                                  "    1) Sugar cubes" + "\n" +
+                                  "    2) Ice Cubes" + "\n" +
+                                  "    3) Price per up" + "\n" +
+                                  "    4) Exit");
+                itemToChange = Console.ReadKey().KeyChar - '0';
+                Console.WriteLine();
             }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message + "\nPlease try again. ");
-                return PickItemToChange();
-            }
+            return itemToChange;
         }
         private void ChangeHowMuchToUse(int itemToChange)
         {
             bool validNumberOfItems = false;
-            while ((itemToChange != 3 || itemToChange != 4) && // the user does not want to quit or change the price
-                   (itemToChange < 0 || itemToChange > 4) &&// the users input is between 0 and 5
-                   validNumberOfItems == false) // user has that number of items in their inventory
+            while (validNumberOfItems == false) // user has that number of items in their inventory
             {
                 switch (itemToChange)
                 {
                     case 0:
                         recipe.amountOfLemons = UserInterface.GetNumberOfItemsInRecipe("lemons");
-                        validNumberOfItems = CheckInventory(inventory.lemons[1].name);
+                        validNumberOfItems = CheckInventory("lemons");
                         break;
                     case 1:
-                        recipe.amountOfSugarCubes = UserInterface.GetNumberOfItemsInRecipe("sugar cubes");
-                        validNumberOfItems = CheckInventory(inventory.sugarCubes[1].name);
+                        recipe.amountOfSugarCubes = UserInterface.GetNumberOfItemsInRecipe("sugar cube");
+                        validNumberOfItems = CheckInventory("sugar cube");
                         break;
                     case 2:
-                        recipe.amountOfIceCubes = UserInterface.GetNumberOfItemsInRecipe("ice cubes");
-                        validNumberOfItems = CheckInventory(inventory.iceCubes[1].name);
+                        recipe.amountOfIceCubes = UserInterface.GetNumberOfItemsInRecipe("ice cube");
+                        validNumberOfItems = CheckInventory("ice cube");
+                        break;
+                    case 3:
+                        ChangePricePerCup();
+                        validNumberOfItems = true;
                         break;
                 }
+            }
 
-            }
-            if(itemToChange == 3)
-            {
-                ChangePricePerCup();
-            }
-            
         }
         private bool CheckInventory(string itemToCheck)
         {
-            if(itemToCheck == "lemons" && recipe.amountOfLemons > inventory.lemons.Count)
+            if (itemToCheck == "lemons" && recipe.amountOfLemons <= inventory.lemons.Count)
             {
                 return true;
             }
-            else if (itemToCheck == "sugar cubes" && recipe.amountOfSugarCubes > inventory.sugarCubes.Count)
+            else if (itemToCheck == "sugar cube" && recipe.amountOfSugarCubes <= inventory.sugarCubes.Count)
             {
                 return true;
             }
-            else if (itemToCheck == "ice cubes" && recipe.amountOfIceCubes > inventory.iceCubes.Count)
+            else if (itemToCheck == "ice cube" && recipe.amountOfIceCubes <= inventory.iceCubes.Count)
             {
                 return true;
             }
             return false;
-        }
+       }
         private void ChangePricePerCup()
         {
-            Console.Write("How much would you like to charge per cup? ");
-            recipe.pricePerCup = Int32.Parse(Console.ReadLine());
+            Console.Write("How much would you like to charge per cup(in cents)? ");
+            recipe.pricePerCup = Double.Parse(Console.ReadLine());
+        }
+        public int MakeLemonade()
+        {
+            int maxNumberOfCups = inventory.cups.Count;
+            int remainderOfLemons = inventory.lemons.Count % recipe.amountOfLemons;
+            //lemons
+            maxNumberOfCups = Math.Min(((inventory.lemons.Count / recipe.amountOfLemons) - remainderOfLemons),maxNumberOfCups);
+            Console.WriteLine(maxNumberOfCups);
+            // ice cubes
+            int remainderOfIceCubes = inventory.iceCubes.Count % recipe.amountOfIceCubes;
+            maxNumberOfCups = Math.Min(((inventory.iceCubes.Count / recipe.amountOfIceCubes) - remainderOfIceCubes), maxNumberOfCups);
+
+            // sugar cubes
+            int remainderOfSugarCubes = inventory.sugarCubes.Count % recipe.amountOfSugarCubes;
+            maxNumberOfCups = Math.Min(((inventory.sugarCubes.Count / recipe.amountOfSugarCubes) - remainderOfSugarCubes), maxNumberOfCups);
+
+            return maxNumberOfCups;
         }
     }
 }

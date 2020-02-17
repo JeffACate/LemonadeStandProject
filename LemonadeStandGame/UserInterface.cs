@@ -29,7 +29,7 @@ namespace LemonadeStand_3DayStarter
             bool isInvalidInput = false;
             int numberOfItems = -1;
 
-            while (!isInvalidInput || numberOfItems < 0 || numberOfItems > 3)
+            while (!isInvalidInput || numberOfItems < 0)
             {
                 Console.WriteLine("How many " + itemToUse + " would you like to use?");
                 Console.Write("Please enter a positive integer: ");

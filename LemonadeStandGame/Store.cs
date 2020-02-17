@@ -41,7 +41,7 @@ namespace LemonadeStand_3DayStarter
 
         public void SellSugarCubes(Player player)
         {
-            int sugarToPurchase = UserInterface.GetNumberOfItems("sugar");
+            int sugarToPurchase = UserInterface.GetNumberOfItems("sugar cubes");
             double transactionAmount = CalculateTransactionAmount(sugarToPurchase, pricePerSugarCube);
             if(player.wallet.Money >= transactionAmount)
             {
@@ -101,28 +101,37 @@ namespace LemonadeStand_3DayStarter
                               "  0) Lemons cost      : $ {0}" + "\n" +
                               "  1) Sugar cubes cost : $ {1}" + "\n" +
                               "  2) Ice cubes cost   : $ {2}" + "\n" +
-                              "  3) Cups cost        : $ {3}", pricePerLemon, pricePerSugarCube, pricePerIceCube, pricePerCup);
+                              "  3) Cups cost        : $ {3}",
+                              pricePerLemon,
+                              pricePerSugarCube,
+                              pricePerIceCube,
+                              pricePerCup);
         }
         public void PurchaseItems(Player player)
         {
-            DisplayStore();
-            int itemToPurchase = ChooseItemToBuy();
-            switch (itemToPurchase)
+            bool stillPurchasingItems = true;
+            while (stillPurchasingItems == true)
             {
-                case 0:
-                    SellLemons(player);
-                    break;
-                case 1:
-                    SellSugarCubes(player);
-                    break;
-                case 2:
-                    SellIceCubes(player);
-                    break;
-                case 3:
-                    SellCups(player);
-                    break;
-                case 4:
-                    break;
+                DisplayStore();
+                int itemToPurchase = ChooseItemToBuy();
+                switch (itemToPurchase)
+                {
+                    case 0:
+                        SellLemons(player);
+                        break;
+                    case 1:
+                        SellSugarCubes(player);
+                        break;
+                    case 2:
+                        SellIceCubes(player);
+                        break;
+                    case 3:
+                        SellCups(player);
+                        break;
+                    case 4:
+                        stillPurchasingItems = false;
+                        break;
+                }
             }
         }
         private int ChooseItemToBuy()

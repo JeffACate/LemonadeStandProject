@@ -92,38 +92,49 @@ namespace LemonadeStand_3DayStarter
             Console.WriteLine("Display Rules" + "\n" +
                               "-----------------");
         }
-        
-        
         private void StartDay()
         {
             //DisplayWeather();
-
-            int task = ChooseTask();
-            switch (task)
+            while (true)
             {
-                case 0:
-                    store.PurchaseItems(player);
-                    break;
-                case 1:
-                    player.EditRecipe();
-                    break;
-                case 2:
-                    break;
+                int task = ChooseTask();
+                switch (task)
+                {
+                    case 0:
+                        store.PurchaseItems(player);
+                        break;
+                    case 1:
+                        player.EditRecipe();
+                        break;
+                    case 2:
+                        player.pitcher.cupsLeftInPitcher = player.MakeLemonade();
+                        break;
+                    case 3:
+                        SimulateDay();
+                        break;
+                }
+                player.GetReady();
             }
         }
         private int ChooseTask()
         {
             int task = -1;
-            while (task < 0 || task > 1)
+            while (task < 0 || task > 4)
             {
                 Console.Write("What would you like to do? " + "\n" +
                               "  0) Go to store" + "\n" +
-                              "  1) Edit Recipe" + "\n" +
-                              "  2) Start Day" + "\n");
+                              "  1) Edit recipe" + "\n" +
+                              "  2) Make lemonade" + "\n" +
+                              "  3) Sell lemonade" + "\n");
                 task = Console.ReadKey().KeyChar - '0';
                 Console.WriteLine();
             }
             return task;
+        }
+
+        private void SimulateDay()
+        {
+
         }
     }
 }
