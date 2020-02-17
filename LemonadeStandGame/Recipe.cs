@@ -10,7 +10,7 @@ namespace LemonadeStand_3DayStarter
     {
         public int amountOfLemons;
         public int amountOfSugarCubes;
-        public int amountOFICeCubes;
+        public int amountOfIceCubes;
         public double pricePerCup;
 
         public Recipe()

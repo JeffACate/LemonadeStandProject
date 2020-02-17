@@ -97,7 +97,6 @@ namespace LemonadeStand_3DayStarter
         private void StartDay()
         {
             //DisplayWeather();
-            //Buy Supplies
 
             int task = ChooseTask();
             switch (task)
@@ -106,7 +105,7 @@ namespace LemonadeStand_3DayStarter
                     store.PurchaseItems(player);
                     break;
                 case 1:
-                    
+                    player.EditRecipe();
                     break;
                 case 2:
                     break;

@@ -52,6 +52,7 @@ namespace LemonadeStand_3DayStarter
         public void EditRecipe()
         {
             DisplayRecipe();
+            PickItemToChange();
         }
         private void DisplayRecipe()
         {
@@ -66,29 +67,29 @@ namespace LemonadeStand_3DayStarter
                               recipe.pricePerCup);
 
         }
-        //private void checkItemToEdit(Item item)
-        //{
-        //    try
-        //    {
-        //        int task = -1;
-        //        while (task < 0 || task > 4)
-        //        {
-        //            Console.Write("What would you like to buy (Press 4 to leave store)? ");
-        //            task = Console.ReadKey().KeyChar - '0';
-        //            Console.WriteLine();
-        //            if (task < 0 || task > 4)
-        //            {
-        //                throw new IndexOutOfRangeException("Invalid input.");
-        //            }
-        //            Console.WriteLine();
-        //        }
-        //        return task;
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        Console.WriteLine(e.Message + "\nPlease try again. ");
-        //        return ChoseItemToBuy();
-        //    }
+        private void PickItemToChange()
+        {
+            try
+            {
+                int itemToChange = -1;
+                while (itemToChange < 0 || itemToChange > 3)
+                {
+                    Console.Write("What would you like to change? ");
+                    itemToChange = Console.ReadKey().KeyChar - '0';
+                    Console.WriteLine();
+                        if (itemToChange < 0 || itemToChange > 4)
+                    {
+                        throw new IndexOutOfRangeException("Invalid input.");
+                    }
+                    Console.WriteLine();
+                }
+                return itemToChange;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message + "\nPlease try again. ");
+                return PickItemToChange();
+            }
         }
-    }
+}
 }
