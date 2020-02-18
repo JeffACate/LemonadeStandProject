@@ -44,7 +44,8 @@ namespace LemonadeStand_3DayStarter
                               "  {0} Lemons" + "\n" +
                               "  {1} Sugar cubes" + "\n" +
                               "  {2} Ice Cubes" + "\n" +
-                              "  {3} Cups",
+                              "  {3} Cups" +    "\n" +
+                              "  {4} Cups in your pitcher",
                               inventory.lemons.Count,
                               inventory.sugarCubes.Count,
                               inventory.iceCubes.Count,

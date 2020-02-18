@@ -8,18 +8,20 @@ namespace LemonadeStand_3DayStarter
 {
     class Game
     {
-        Player player;
-        List<Day> days;
-        int currentDay;
-        //public Random randomNumberGenerator;  
-        Store store = new Store();
-        
+        private Player player;
+        public List<Day> days;
+        private int currentDay;
+        private Random rng;  
+        private Store store = new Store();
+        private int numberOfDays;
         public Game()
         {
-
+            rng = new Random();
             player = new Player("Jeff" /* GetPlayerName() */);
             currentDay = 1;
-            days = new List<Day>() { new Day() };
+            numberOfDays = 7;
+            days = new List<Day>();
+            GenerateDays(rng);
             /* 1
              * ADD ==> MULTIPLE NUMBER OF DAYS
              * =====================================
@@ -47,33 +49,37 @@ namespace LemonadeStand_3DayStarter
             return Console.ReadLine();
         }
 
-        private List<Day> GenerateDays()
+        public void GenerateDays(Random rng)
         {
-            List<Day> localDays = new List<Day>();
-            try
+            for (int i = 0; i < numberOfDays; i++)
             {
-                Console.WriteLine("How many days would you like to play? ");
-                int daysToPlay = 7;// Player picks number of days ===> Int32.Parse(Console.ReadLine());
-
-                if (daysToPlay > 7)
-                {
-                    throw new ArithmeticException("Too Many Days! Please enter a smaller number.");
-                }
-                else
-                {
-                    for (int i = 0; i <= daysToPlay-1; i++)
-                    {
-                        localDays.Add(new Day());
-                    }
-                    return localDays;
-                }
-
+                days.Add(new Day(rng));
             }
-            catch(Exception e)
-            {
-                Console.WriteLine(e.Message);
-                return GenerateDays();
-            }
+            //List<Day> localDays = new List<Day>();
+            //try
+            //{
+            //    Console.WriteLine("How many days would you like to play? ");
+            //    int daysToPlay = 7;// Player picks number of days ===> Int32.Parse(Console.ReadLine());
+
+            //    if (daysToPlay > 7)
+            //    {
+            //        throw new ArithmeticException("Too Many Days! Please enter a smaller number.");
+            //    }
+            //    else
+            //    {
+            //        for (int i = 0; i <= daysToPlay-1; i++)
+            //        {
+            //            localDays.Add(new Day());
+            //        }
+            //        return localDays;
+            //    }
+
+            //}
+            //catch(Exception e)
+            //{
+            //    Console.WriteLine(e.Message);
+            //    return GenerateDays();
+            //}
         }
         public void RunGame()
         {

@@ -11,9 +11,20 @@ namespace LemonadeStand_3DayStarter
         public Weather weather;
         public List<Customer> customers;
 
-        public Day()
+        public Day(Random rng)
         {
+            weather = new Weather(rng);
+            customers = new List<Customer>();
+            CreateCustomersList(rng);
+        }
 
+        private void CreateCustomersList(Random rng)
+        {
+            int numberOfCustomers = rng.Next(0,100);
+            for (int i = 0; i < numberOfCustomers; i++)
+            {
+                customers.Add(new Customer(rng));
+            }
         }
     }
 }
