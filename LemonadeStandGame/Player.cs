@@ -27,10 +27,12 @@ namespace LemonadeStand_3DayStarter
             DisplayWallet();
             DisplayInventory();
         }
+
+        // SOLID PRINCIPLE ~~ single responsibility ~~
         private void DisplayWallet()
         {
             Console.WriteLine("You have: ${0}", wallet.Money);
-            Console.WriteLine("----------------\n");
+            Console.WriteLine("--------------------------------------");
         }
         private void DisplayInventory()
         {
@@ -68,7 +70,7 @@ namespace LemonadeStand_3DayStarter
                               "  {1} Sugar cubes" + "\n" +
                               "  {2} Ice cubes" + "\n" +
                               "in each cup for: " + "\n" +
-                              "  $0.{3} Price per cup" + "\n",
+                              "  ${3} Price per cup" + "\n",
                               recipe.amountOfLemons,
                               recipe.amountOfSugarCubes,
                               recipe.amountOfIceCubes,
@@ -133,18 +135,26 @@ namespace LemonadeStand_3DayStarter
             }
             return false;
        }
+        //  SOLID PRINCIPLE ~~ single responsibility ~~
         private void ChangePricePerCup()
         {
-            Console.Write("How much would you like to charge per cup(in cents)? ");
+            Console.Write("How much would you like to charge per cup(in dollars $.$$)? ");
             recipe.pricePerCup = Double.Parse(Console.ReadLine());
         }
-        public int MakeLemonade()
+        public void MakeLemonade()
+        {
+            // how many to subtract from that item from inventory = number of cups made * number of items in recipe
+            int amountToSubtractFromInventory;
+            int maxNumberOfCups = HowMuchLemonadeCanIMake();
+            amountToSubtractFromInventory = recipe.amountOfLemons * maxNumberOfCups;
+        }
+
+        private int HowMuchLemonadeCanIMake()
         {
             int maxNumberOfCups = inventory.cups.Count;
             int remainderOfLemons = inventory.lemons.Count % recipe.amountOfLemons;
             //lemons
-            maxNumberOfCups = Math.Min(((inventory.lemons.Count / recipe.amountOfLemons) - remainderOfLemons),maxNumberOfCups);
-            Console.WriteLine(maxNumberOfCups);
+            maxNumberOfCups = Math.Min(((inventory.lemons.Count / recipe.amountOfLemons) - remainderOfLemons), maxNumberOfCups);
             // ice cubes
             int remainderOfIceCubes = inventory.iceCubes.Count % recipe.amountOfIceCubes;
             maxNumberOfCups = Math.Min(((inventory.iceCubes.Count / recipe.amountOfIceCubes) - remainderOfIceCubes), maxNumberOfCups);
@@ -153,6 +163,7 @@ namespace LemonadeStand_3DayStarter
             int remainderOfSugarCubes = inventory.sugarCubes.Count % recipe.amountOfSugarCubes;
             maxNumberOfCups = Math.Min(((inventory.sugarCubes.Count / recipe.amountOfSugarCubes) - remainderOfSugarCubes), maxNumberOfCups);
 
+            Console.WriteLine(maxNumberOfCups);
             return maxNumberOfCups;
         }
     }

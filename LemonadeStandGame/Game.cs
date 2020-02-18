@@ -89,8 +89,12 @@ namespace LemonadeStand_3DayStarter
         }
         private void DisplayRules()
         {
-            Console.WriteLine("Display Rules" + "\n" +
-                              "-----------------");
+            Console.WriteLine("Welcome to the lemonade stand game."     + "\n" +
+                              "Your task is to sell lemonade. You"      + "\n" +
+                              "will start with ${0} and no supplies"    + "\n" +
+                              "the weather and price  will affect the"  + "\n" +
+                              "customer's willingness to buy."          + "\n" +
+                              "--------------------------------------",player.wallet.Money);
         }
         private void StartDay()
         {
@@ -107,7 +111,7 @@ namespace LemonadeStand_3DayStarter
                         player.EditRecipe();
                         break;
                     case 2:
-                        player.pitcher.cupsLeftInPitcher = player.MakeLemonade();
+                        player.MakeLemonade();
                         break;
                     case 3:
                         SimulateDay();
@@ -125,7 +129,8 @@ namespace LemonadeStand_3DayStarter
                               "  0) Go to store" + "\n" +
                               "  1) Edit recipe" + "\n" +
                               "  2) Make lemonade" + "\n" +
-                              "  3) Sell lemonade" + "\n");
+                              "  3) Sell lemonade" +
+                            "\n  ");
                 task = Console.ReadKey().KeyChar - '0';
                 Console.WriteLine();
             }
