@@ -1,4 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace LemonadeStand_3DayStarter
 {
@@ -146,7 +150,20 @@ namespace LemonadeStand_3DayStarter
             // how many to subtract from that item from inventory = number of cups made * number of items in recipe
             int amountToSubtractFromInventory;
             int maxNumberOfCups = HowMuchLemonadeCanIMake();
+
+
             amountToSubtractFromInventory = recipe.amountOfLemons * maxNumberOfCups;
+            RemoveItemsFromInventory(inventory.lemons, amountToSubtractFromInventory);
+
+            amountToSubtractFromInventory = recipe.amountOfSugarCubes * maxNumberOfCups;
+            RemoveItemsFromInventory(inventory.sugarCubes, amountToSubtractFromInventory);
+
+            amountToSubtractFromInventory = recipe.amountOfIceCubes * maxNumberOfCups;
+            RemoveItemsFromInventory(inventory.iceCubes, amountToSubtractFromInventory);
+
+            amountToSubtractFromInventory = maxNumberOfCups;
+            RemoveItemsFromInventory(inventory.cups, amountToSubtractFromInventory);
+
         }
 
         private int HowMuchLemonadeCanIMake()
@@ -163,8 +180,36 @@ namespace LemonadeStand_3DayStarter
             int remainderOfSugarCubes = inventory.sugarCubes.Count % recipe.amountOfSugarCubes;
             maxNumberOfCups = Math.Min(((inventory.sugarCubes.Count / recipe.amountOfSugarCubes) - remainderOfSugarCubes), maxNumberOfCups);
 
-            Console.WriteLine(maxNumberOfCups);
+            Console.WriteLine("Number of cups you can make: " + maxNumberOfCups);
             return maxNumberOfCups;
+        }
+        private void RemoveItemsFromInventory(List<Lemon> lemonsInInventory, int amountToRemove)
+        {
+            for (int i = 0; i < amountToRemove; i++)
+            {
+                lemonsInInventory.Remove(lemonsInInventory[0]);
+            }
+        }
+        private void RemoveItemsFromInventory(List<SugarCube> sugarInInventory, int amountToRemove)
+        {
+            for (int i = 0; i < amountToRemove; i++)
+            {
+                sugarInInventory.Remove(sugarInInventory[0]);
+            }
+        }
+        private void RemoveItemsFromInventory(List<IceCube> iceInInventory, int amountToRemove)
+        {
+            for (int i = 0; i < amountToRemove; i++)
+            {
+                iceInInventory.Remove(iceInInventory[0]);
+            }
+        }
+        private void RemoveItemsFromInventory(List<Cup> cupsInInventory, int amountToRemove)
+        {
+            for (int i = 0; i < amountToRemove; i++)
+            {
+                cupsInInventory.Remove(cupsInInventory[0]);
+            }
         }
     }
 }
