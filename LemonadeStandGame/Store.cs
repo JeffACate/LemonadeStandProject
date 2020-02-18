@@ -14,6 +14,22 @@ namespace LemonadeStand_3DayStarter
         private double pricePerIceCube;
         private double pricePerCup;
 
+        public double PricePerLemon
+        {
+            get => pricePerLemon;
+        }
+        public double PricePerSugarCube
+        {
+            get => pricePerSugarCube;
+        }
+        public double PricePerIceCube
+        {
+            get => pricePerIceCube;
+        }
+        public double PricePerCup
+        {
+            get => pricePerLemon;
+        }
         // constructor (SPAWNER)
         public Store()
         {
@@ -98,14 +114,15 @@ namespace LemonadeStand_3DayStarter
         private void DisplayStore()
         {
             Console.WriteLine("Store Prices: " + "\n" +
-                              "  0) Lemons cost      : $ {0}" + "\n" +
-                              "  1) Sugar cubes cost : $ {1}" + "\n" +
-                              "  2) Ice cubes cost   : $ {2}" + "\n" +
-                              "  3) Cups cost        : $ {3}",
-                              pricePerLemon,
-                              pricePerSugarCube,
-                              pricePerIceCube,
-                              pricePerCup);
+                          "  0) Lemons cost      : $ {0}" + "\n" +
+                          "  1) Sugar cubes cost : $ {1}" + "\n" +
+                          "  2) Ice cubes cost   : $ {2}" + "\n" +
+                          "  3) Cups cost        : $ {3}" + "\n" +
+                          "  4) EXIT", 
+                          pricePerLemon,
+                          pricePerSugarCube,
+                          pricePerIceCube,
+                          pricePerCup);
         }
         public void PurchaseItems(Player player)
         {
@@ -136,27 +153,18 @@ namespace LemonadeStand_3DayStarter
         }
         private int ChooseItemToBuy()
         {
-            try
+            int task = -1;
+            Console.Write("What would you like to buy? ");
+            task = Console.ReadKey().KeyChar - '0';
+            Console.WriteLine();
+            while (task < 0 || task > 4)
             {
-                int task = -1;
-                while (task < 0 || task > 4)
-                {
-                    Console.Write("What would you like to buy (Press 4 to leave store)? ");
-                    task = Console.ReadKey().KeyChar - '0';
-                    Console.WriteLine();
-                    if ( task < 0 || task > 4)
-                    {
-                        throw new IndexOutOfRangeException ("Invalid input.");
-                    }
-                    Console.WriteLine();
-                }
-                return task;
+                Console.WriteLine("Ivalid item!! Please try again.");
+                Console.Write("What would you like to buy? ");
+                task = Console.ReadKey().KeyChar - '0';
+                Console.WriteLine();
             }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message + "\nPlease try again. ");
-                return ChooseItemToBuy();
-            }
+            return task;
         }
     }
 }

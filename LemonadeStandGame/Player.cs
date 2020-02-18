@@ -35,6 +35,7 @@ namespace LemonadeStand_3DayStarter
         // SOLID PRINCIPLE ~~ single responsibility ~~
         private void DisplayWallet()
         {
+            Console.WriteLine("--------------------------------------");
             Console.WriteLine("You have: ${0}", wallet.Money);
             Console.WriteLine("--------------------------------------");
         }
@@ -49,7 +50,8 @@ namespace LemonadeStand_3DayStarter
                               inventory.lemons.Count,
                               inventory.sugarCubes.Count,
                               inventory.iceCubes.Count,
-                              inventory.cups.Count);
+                              inventory.cups.Count,
+                              pitcher.cupsLeftInPitcher);
         }
         public void EditRecipe()
         {
@@ -148,11 +150,11 @@ namespace LemonadeStand_3DayStarter
         }
         public void MakeLemonade()
         {
-            // how many to subtract from that item from inventory = number of cups made * number of items in recipe
+            // CALCULATE MAX NUMBER OF CUPS BASED ON INVENTORY
             int amountToSubtractFromInventory;
             int maxNumberOfCups = HowMuchLemonadeCanIMake();
 
-
+            // REMOVE ITEMS FROM INVENTORY
             amountToSubtractFromInventory = recipe.amountOfLemons * maxNumberOfCups;
             RemoveItemsFromInventory(inventory.lemons, amountToSubtractFromInventory);
 
@@ -165,6 +167,8 @@ namespace LemonadeStand_3DayStarter
             amountToSubtractFromInventory = maxNumberOfCups;
             RemoveItemsFromInventory(inventory.cups, amountToSubtractFromInventory);
 
+            // ADD CUPS TO PITCHER
+            pitcher.cupsLeftInPitcher += maxNumberOfCups;
         }
 
         private int HowMuchLemonadeCanIMake()
@@ -211,6 +215,11 @@ namespace LemonadeStand_3DayStarter
             {
                 cupsInInventory.Remove(cupsInInventory[0]);
             }
+        }
+        public void SellLemonade()
+        {
+            pitcher.cupsLeftInPitcher -= 1;
+            wallet.SellLemonadeForMoney(recipe.pricePerCup);
         }
     }
 }

@@ -18,7 +18,7 @@ namespace LemonadeStand_3DayStarter
         {
             rng = new Random();
             player = new Player("Jeff" /* GetPlayerName() */);
-            currentDay = 1;
+            currentDay = 0;
             numberOfDays = 7;
             days = new List<Day>();
             GenerateDays(rng);
@@ -83,15 +83,12 @@ namespace LemonadeStand_3DayStarter
         }
         public void RunGame()
         {
-            DisplayRules();
-            player.GetReady();
-            StartDay();
-            
-
-            // Sell Lemonade
-
-
-             
+            currentDay = 1;
+            for (int i = 0; i < days.Count; i++)
+            {
+                StartDay();
+                currentDay++;
+            }
         }
         private void DisplayRules()
         {
@@ -104,8 +101,8 @@ namespace LemonadeStand_3DayStarter
         }
         private void StartDay()
         {
-            //DisplayWeather();
-            while (true)
+            bool isDayOver = false;
+            while (isDayOver == false)
             {
                 int task = ChooseTask();
                 switch (task)
@@ -120,10 +117,10 @@ namespace LemonadeStand_3DayStarter
                         player.MakeLemonade();
                         break;
                     case 3:
-                        SimulateDay();
+                        SimulateDay(days[currentDay-1]);
+                        isDayOver = true;
                         break;
                 }
-                player.GetReady();
             }
         }
         private int ChooseTask()
@@ -131,21 +128,62 @@ namespace LemonadeStand_3DayStarter
             int task = -1;
             while (task < 0 || task > 4)
             {
-                Console.Write("What would you like to do? " + "\n" +
+                DisplayRules();
+                days[currentDay-1].DisplayWeather(currentDay);
+                player.GetReady();
+                Console.WriteLine("--------------------------------------");
+                Console.WriteLine("What would you like to do? " + "\n" +
                               "  0) Go to store" + "\n" +
                               "  1) Edit recipe" + "\n" +
                               "  2) Make lemonade" + "\n" +
-                              "  3) Sell lemonade" +
-                            "\n  ");
+                              "  3) Sell lemonade");
                 task = Console.ReadKey().KeyChar - '0';
                 Console.WriteLine();
             }
             return task;
         }
-
-        private void SimulateDay()
+        private void SimulateDay(Day today)
         {
-
+            // SIMULATE DAY
+            // FOREACH CUSTOMER
+            for (int i = 0; i < today.customers.Count; i++)
+            {
+                today.FactorWeather(today.customers[i]);
+                today.FactorTemperature(today.customers[i]);
+                double costOfLemonade = CalculateLemonadeCost(player.recipe, store);
+                if( player.recipe.pricePerCup /costOfLemonade *100 >= 500)
+                {
+                    today.customers[i].buyProbability -= 10;
+                }
+                else if(player.recipe.pricePerCup / costOfLemonade *100 <= 200)
+                {
+                    today.customers[i].buyProbability += 10;
+                }
+                bool willCustomerBuy = today.customers[i].RollToSeeIfIWillBuy(rng);
+                //PERFORM TRANSACTION
+                if (willCustomerBuy == true && player.pitcher.cupsLeftInPitcher > 0)
+                {
+                    player.SellLemonade();
+                    Console.WriteLine("Lemonade sold!!");
+                }
+                else if(willCustomerBuy == true)
+                {
+                    Console.WriteLine("Sorry, we're sold out.");
+                }
+                else if(willCustomerBuy == false)
+                {
+                    Console.WriteLine("No, thank you.");
+                }
+            }
+        }
+        private double CalculateLemonadeCost(Recipe recipe, Store store)
+        {
+            double costOfLemonade = 0;
+            costOfLemonade += recipe.amountOfLemons * store.PricePerLemon;
+            costOfLemonade += recipe.amountOfSugarCubes * store.PricePerIceCube;
+            costOfLemonade += recipe.amountOfIceCubes * store.PricePerIceCube;
+            costOfLemonade += store.PricePerCup;
+            return costOfLemonade;
         }
     }
 }

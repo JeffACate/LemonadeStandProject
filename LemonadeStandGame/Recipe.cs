@@ -18,7 +18,7 @@ namespace LemonadeStand_3DayStarter
             amountOfLemons = 1;
             amountOfIceCubes = 1;
             amountOfSugarCubes = 1;
-            pricePerCup = .25;
+            pricePerCup = 2.50;
         }
 
     }
