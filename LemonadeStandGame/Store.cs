@@ -51,7 +51,7 @@ namespace LemonadeStand_3DayStarter
             }
             else
             {
-                Console.WriteLine("You do not have enough money!");
+                UserInterface.RejectTransaction();
             }
         }
 
@@ -66,7 +66,7 @@ namespace LemonadeStand_3DayStarter
             }
             else
             {
-                Console.WriteLine("You do not have enough money!");
+                UserInterface.RejectTransaction();
             }
         }
 
@@ -81,7 +81,7 @@ namespace LemonadeStand_3DayStarter
             }
             else
             {
-                Console.WriteLine("You do not have enough money!");
+                UserInterface.RejectTransaction();
             }
         }
 
@@ -96,7 +96,7 @@ namespace LemonadeStand_3DayStarter
             }
             else
             {
-                Console.WriteLine("You do not have enough money!");
+                UserInterface.RejectTransaction();
             }
         }
 
@@ -111,26 +111,14 @@ namespace LemonadeStand_3DayStarter
             wallet.PayMoneyForItems(transactionAmount);
         }
 
-        private void DisplayStore()
-        {
-            Console.WriteLine("Store Prices: " + "\n" +
-                          "  0) Lemons cost      : $ {0}" + "\n" +
-                          "  1) Sugar cubes cost : $ {1}" + "\n" +
-                          "  2) Ice cubes cost   : $ {2}" + "\n" +
-                          "  3) Cups cost        : $ {3}" + "\n" +
-                          "  4) EXIT", 
-                          pricePerLemon,
-                          pricePerSugarCube,
-                          pricePerIceCube,
-                          pricePerCup);
-        }
+        
         public void PurchaseItems(Player player)
         {
             bool stillPurchasingItems = true;
             while (stillPurchasingItems == true)
             {
-                DisplayStore();
-                int itemToPurchase = ChooseItemToBuy();
+                UserInterface.DisplayStore(pricePerLemon, pricePerSugarCube, pricePerIceCube, pricePerCup);
+                int itemToPurchase = UserInterface.ChooseItemToBuy();
                 switch (itemToPurchase)
                 {
                     case 0:
@@ -151,20 +139,6 @@ namespace LemonadeStand_3DayStarter
                 }
             }
         }
-        private int ChooseItemToBuy()
-        {
-            int task = -1;
-            Console.Write("What would you like to buy? ");
-            task = Console.ReadKey().KeyChar - '0';
-            Console.WriteLine();
-            while (task < 0 || task > 4)
-            {
-                Console.WriteLine("Ivalid item!! Please try again.");
-                Console.Write("What would you like to buy? ");
-                task = Console.ReadKey().KeyChar - '0';
-                Console.WriteLine();
-            }
-            return task;
-        }
+        
     }
 }

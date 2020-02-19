@@ -8,22 +8,21 @@ namespace LemonadeStand_3DayStarter
 {
     class Day
     {
+        //open weather api
+            // how to make and api call
+            // learn to use api call
         public Weather weather;
         public List<Customer> customers;
 
-        public Day(Random rng)
+        public Day(Random rng, int numberOfCustomers)
         {
             weather = new Weather(rng);
             customers = new List<Customer>();
-            CreateCustomersList(rng);
+            CreateCustomersList(numberOfCustomers, rng);
         }
-        public void DisplayWeather(int day)
+        //SOLID PRINCIPLE ~~ SUBSTITUTION ~~ CAN CHANGE NUMBER OF CUSTOMERS BY PASSING IN AN INTEGER
+        private void CreateCustomersList(int numberOfCustomers, Random rng)
         {
-            Console.WriteLine("Today, day " + day + ", will be: " + weather.temperature + "° and " + weather.condition);
-        }
-        private void CreateCustomersList(Random rng)
-        {
-            int numberOfCustomers = rng.Next(0, 100);
             for (int i = 0; i < numberOfCustomers; i++)
             {
                 customers.Add(new Customer(rng));

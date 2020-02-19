@@ -28,38 +28,17 @@ namespace LemonadeStand_3DayStarter
         // member methods (CAN DO)
         public void GetReady()
         {
-            DisplayWallet();
-            DisplayInventory();
+            UserInterface.DisplayWallet(wallet);
+            UserInterface.DisplayInventory(inventory, pitcher);
         }
 
-        // SOLID PRINCIPLE ~~ single responsibility ~~
-        private void DisplayWallet()
-        {
-            Console.WriteLine("--------------------------------------");
-            Console.WriteLine("You have: ${0}", wallet.Money);
-            Console.WriteLine("--------------------------------------");
-        }
-        private void DisplayInventory()
-        {
-            Console.WriteLine("You have:\n" +
-                              "  {0} Lemons" + "\n" +
-                              "  {1} Sugar cubes" + "\n" +
-                              "  {2} Ice Cubes" + "\n" +
-                              "  {3} Cups" +    "\n" +
-                              "  {4} Cups in your pitcher",
-                              inventory.lemons.Count,
-                              inventory.sugarCubes.Count,
-                              inventory.iceCubes.Count,
-                              inventory.cups.Count,
-                              pitcher.cupsLeftInPitcher);
-        }
         public void EditRecipe()
         {
             bool continueEditingRecipe = true;
             while (continueEditingRecipe == true)
             {
-                DisplayRecipe();
-                int itemToChange = PickItemToChange();
+                UserInterface.DisplayRecipe(recipe);
+                int itemToChange = UserInterface.PickItemToChange();
                 if (itemToChange != 4)
                 {
                     ChangeHowMuchToUse(itemToChange);
@@ -69,35 +48,6 @@ namespace LemonadeStand_3DayStarter
                     continueEditingRecipe = false;
                 }
             }
-        }
-        private void DisplayRecipe()
-        {
-            Console.WriteLine("Your Recipe:" + "\n" +
-                              "  {0} Lemons" + "\n" +
-                              "  {1} Sugar cubes" + "\n" +
-                              "  {2} Ice cubes" + "\n" +
-                              "in each cup for: " + "\n" +
-                              "  ${3} Price per cup" + "\n",
-                              recipe.amountOfLemons,
-                              recipe.amountOfSugarCubes,
-                              recipe.amountOfIceCubes,
-                              recipe.pricePerCup);
-        }
-        private int PickItemToChange()
-        {
-            int itemToChange = -1;
-            while (itemToChange < 0 || itemToChange > 4)
-            {
-                Console.Write("What would you like to change? \n");
-                Console.WriteLine("    0) Lemons" + "\n" +
-                                  "    1) Sugar cubes" + "\n" +
-                                  "    2) Ice Cubes" + "\n" +
-                                  "    3) Price per up" + "\n" +
-                                  "    4) Exit");
-                itemToChange = Console.ReadKey().KeyChar - '0';
-                Console.WriteLine();
-            }
-            return itemToChange;
         }
         private void ChangeHowMuchToUse(int itemToChange)
         {
@@ -119,7 +69,7 @@ namespace LemonadeStand_3DayStarter
                         validNumberOfItems = CheckInventory("ice cube");
                         break;
                     case 3:
-                        ChangePricePerCup();
+                        recipe.pricePerCup = UserInterface.ChangePricePerCup();
                         validNumberOfItems = true;
                         break;
                 }
@@ -143,11 +93,7 @@ namespace LemonadeStand_3DayStarter
             return false;
        }
         //  SOLID PRINCIPLE ~~ single responsibility ~~
-        private void ChangePricePerCup()
-        {
-            Console.Write("How much would you like to charge per cup(in dollars $.$$)? ");
-            recipe.pricePerCup = Double.Parse(Console.ReadLine());
-        }
+        
         public void MakeLemonade()
         {
             // CALCULATE MAX NUMBER OF CUPS BASED ON INVENTORY
@@ -185,7 +131,7 @@ namespace LemonadeStand_3DayStarter
             int remainderOfSugarCubes = inventory.sugarCubes.Count % recipe.amountOfSugarCubes;
             maxNumberOfCups = Math.Min(((inventory.sugarCubes.Count / recipe.amountOfSugarCubes) - remainderOfSugarCubes), maxNumberOfCups);
 
-            Console.WriteLine("Number of cups you can make: " + maxNumberOfCups);
+            UserInterface.DisplayNumberOfCupsYouCanMake(maxNumberOfCups);
             return maxNumberOfCups;
         }
         private void RemoveItemsFromInventory(List<Lemon> lemonsInInventory, int amountToRemove)
